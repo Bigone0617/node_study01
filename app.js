@@ -1,5 +1,15 @@
 var express = require('express');
 var app = express();
+// 소스보기 했을때 소스 이쁘게 보기 위해서
+app.locals.pretty = true;
+// express 와 jade를 연결해주는 부분
+app.set('view engine', 'jade');
+// views 템플릿이 있는 디렉토리 가져오기
+app.set('views', './views');
+// 화면을 그리는 부분
+app.get('/template', function(req, res) {
+    res.render('temp', {_title: "new title", time: Date()});
+});
 // 정적인 파일 가져오기
 app.use(express.static('public'));
 
