@@ -13,6 +13,49 @@ app.get('/template', function(req, res) {
 // 정적인 파일 가져오기
 app.use(express.static('public'));
 
+/* 
+    일반적인 url 라우팅, query string사용법
+
+    app.get('/topic', function(req, res){
+        var topics = [
+            "JavaScript is ...",
+            "Node js is....",
+            "exprerss is..."
+        ];
+
+        var output = `
+            <a href="/topic?id=0">Javascript</a><br>
+            <a href="/topic?id=1">node js</a><br>
+            <a href="/topic?id=2">express</a><br><br>
+            ${topics[req.query.id]}
+        `
+        res.send(output);
+    }
+*/
+
+//? 시멘틱 URL => :id는 params객체에 들어가는 키값
+app.get('/topic/:id', function(req, res){
+    var topics = [
+        "JavaScript is ...",
+        "Node js is....",
+        "exprerss is..."
+    ];
+
+    var output = `
+        <a href="/topic/0">Javascript</a><br>
+        <a href="/topic/1">node js</a><br>
+        <a href="/topic/2">express</a><br><br>
+        ${topics[req.params.id]}
+    `
+    res.send(output);
+});
+
+//? 시멘틱 URL에서 여러 파라미터를 받고 싶거나, 지금 화면의 값을 다른데로 보내고 싶을때
+app.get('/topic/:id/:mode', function(req, res){
+    res.send(req.params.id + ": " + req.params.mode);
+});
+
+
 // get 방식, /는 그냥 url
 app.get('/', function(req, res){
     res.send('Hello home page');
