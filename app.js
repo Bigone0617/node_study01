@@ -1,4 +1,6 @@
 var express = require('express');
+// POST방식에서 params 받아오기 위해
+var bodyParser = require('body-parser');
 var app = express();
 // 소스보기 했을때 소스 이쁘게 보기 위해서
 app.locals.pretty = true;
@@ -12,6 +14,8 @@ app.get('/template', function(req, res) {
 });
 // 정적인 파일 가져오기
 app.use(express.static('public'));
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 /* 
     일반적인 url 라우팅, query string사용법
@@ -84,3 +88,26 @@ app.get('/login', function(req, res){
 app.listen(3000, function(){
     console.log('Connnection 3000 port!');
 });
+
+//? Post 방식 : form 시작
+
+app.get('/form', function(req, res){
+    res.render('form');
+});
+
+// POST방식으로는 이렇게 받지 못함(Get방식)
+// app.get('/form_receiver', function(req, res){
+//     res.send(req.query);
+// });
+
+app.post('/form_receiver', function(req, res){
+    res.send(req.body);
+});
+
+//? POST 방식 : form 끝
+
+/*
+! GET과 POST방식의 차이 및 쓰임새
+? 1. GET : 공유 및 권한이 필요없는 페이지를 보여줄때
+? 2. POST: 아이디+비밀번호 전송(GET, POST 둘다 불안정 : HTTPS OR SSL을 이용해야됨) 및 대규모 데이터를 보낼때(GET방식으로 하면 URL이 짤리는 현상이 발생)
+*/
