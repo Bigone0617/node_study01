@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title New
+    body
+        form(action='/topic', method='post')
+            p
+                h3 Title
+                input(type='text', name='title', placeholder='title')
+            p
+                h4 Description 
+                textarea(name='description', placeholder='description')
+            p 
+                input(type='submit')
