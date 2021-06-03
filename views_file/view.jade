@@ -3,7 +3,8 @@ html
         meta(charset='utf-8')
         title Index
     body
-        h1 Server Side Javascript 
+        a(href='/topic') 
+            h1 Server Side Javascript 
         ul 
             -each topic in topics 
                 li 
@@ -13,3 +14,6 @@ html
             h2= title 
             p 
                 h3= description
+
+        p 
+            button(onclick='location.href="topic/new"') Create New

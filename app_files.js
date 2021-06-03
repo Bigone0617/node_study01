@@ -27,33 +27,38 @@ app.post('/topic', function(req, res){
     });
 });
 
-// get방식으로 list 화면 불었을때
-app.get('/topic', function(req, res){
-    fileRead(res);
-});
-
-// 새로운 글 작성 화면
+// 새로운 글 작성 화면 
+//! 주의 : topic/:id보다 위에 코딩이 되어 있어아 한다. 왜냐하면 아래에 코딩이 되면 topic/:id를 타서 에러가 발생함
 app.get('/topic/new', function(req, res){
     res.render('new');
 });
 
-// 글 상세 내용
-app.get('/topic/:id', function(req, res){
+// get방식으로 list 화면 불었을때
+app.get(['/topic', '/topic/:id'], function(req, res){
     var id = req.params.id;
-    fs.readdir('data', function(err, files){
-        if(err){
-            showErr(err);
-        }
 
-        fs.readFile('data/'+id, 'utf-8', function(err, data){
+    // 글 제목을 누른경우
+    if(id){
+        // 글 상세 내용
+        fs.readdir('data', function(err, files){
             if(err){
                 showErr(err);
             }
     
-            res.render('view', {topics: files, title: id, description: data});
+            fs.readFile('data/'+id, 'utf-8', function(err, data){
+                if(err){
+                    showErr(err);
+                }
+        
+                res.render('view', {topics: files, title: id, description: data});
+            });
         });
-    })
+    }else{// 누르지 않은 경우
+        fileRead(res);
+    }
 });
+
+
 
 //========================== custom function ====================
 
@@ -64,7 +69,7 @@ var fileRead = function(res) {
             showErr(err);
         }
 
-        res.render('view', {topics: files});
+        res.render('view', {topics: files, title: 'Hello', description: 'javascript for server'});
     })
 };
 
