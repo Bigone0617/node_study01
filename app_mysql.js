@@ -75,6 +75,35 @@ app.get(['/topic/add', '/topic/add/:id'], function(req, res){
     }
 });
 
+// 삭제 페이지 이동
+app.get('/topic/delete/:id', function(req, res){
+    var sql = 'SELECT * FROM topic WHERE id = ' + req.params.id;
+    connection.query(sql, function(err, rows, fields){
+        if(err){
+            throw err
+        }else {
+            if(rows.length === 0){
+                console.log('Data is null');
+            }else{
+                res.render('delete', {topic: rows[0]});
+            }
+        }
+    })
+});
+
+// 삭제 페이지에서 yes를 눌렀을 경우
+app.post('/topic/delete/:id', function(req, res){
+    var id = req.params.id;
+    var sql = 'DELETE FROM topic WHERE id=?';
+
+    connection.query(sql, [id], function(err, result){
+        if(result.affectedRows > 0){
+            res.redirect('/topic/');
+        }
+    })
+
+});
+
 // get방식으로 list 화면 불었을때
 app.get(['/topic', '/topic/:id'], function(req, res){
     var sql = 'SELECT id, title FROM topic';
@@ -85,7 +114,7 @@ app.get(['/topic', '/topic/:id'], function(req, res){
             var id = req.params.id;
 
             if(id) {
-                var description = connection.query('SELECT title, decription, author FROM topic WHERE id = ' + id , function(err, info, fields){
+                var description = connection.query('SELECT * FROM topic WHERE id = ' + id , function(err, info, fields){
                     if(err){
                         throw err
                     }else{

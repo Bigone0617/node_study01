@@ -11,7 +11,6 @@ html
                 li 
                     
                     a(href='/topic/'+topic.id)= topic.title
-                    button(onclick=`location.href="/topic/add/"+${topic.id}`) EDIT
 
         article
             if topic
@@ -21,6 +20,13 @@ html
             else 
                 h2 Welcome 
                 | This is Server side javascript tutorial.
+        ul 
+            if topic 
+                li 
+                    a(href='/topic/add/'+topic.id) EDIT
+                li
+                    a(href='/topic/delete/'+topic.id) DELETE
+            
 
         p 
             button(onclick='location.href="/topic/add"') Create New
