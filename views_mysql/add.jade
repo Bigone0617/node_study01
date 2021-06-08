@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title New
+    body
+        form(action='/topic', method='post')
+            p
+                h3 Title
+                input(type='text', name='title', placeholder='title', value= datas? datas[0].title : null)
+            p
+                h4 Description 
+                textarea(name='description', placeholder='description')= datas? datas[0].decription : null
+            p
+                h4 Author 
+                textarea(name='author', placeholder='author')= datas? datas[0].author : null
+            p 
+                input(type='hidden', name='id', value= datas? datas[0].id : null)
+            p 
+                input(type='submit')

@@ -1,0 +1,18 @@
+html
+    head
+        meta(charset='utf-8')
+        title Index
+    body
+        a(href='/topic') 
+            h1 Server Side Javascript 
+        
+        h3= topic.title
+        h4= topic.decription
+        h5= topic.author
+       
+        article
+            H1 Do you want delete?
+            form(action='/topic/delete/'+ topic.id method='post')
+                p 
+                    input(type='submit', value='YES')
+            a(href='/topic/'+ topic.id) NO
